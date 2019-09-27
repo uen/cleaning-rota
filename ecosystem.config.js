@@ -19,3 +19,4 @@ module.exports = {
         'post-deploy' : 'git submodule update --init --recursive; cp ~/cleaning-rota/production.config.js config.js; npm install && pm2 startOrRestart ecosystem.config.js --env production'
       }
     }
+}
