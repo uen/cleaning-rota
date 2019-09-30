@@ -111,7 +111,9 @@ const SECTOR_STATUS = {
 
                         if (!thisWeek[cleaningSectors[sectorIndex]])
                             response = `Sorry ${PEOPLE[personIndex]}, I could not find a sector attached to you this week.`;
-                        else {
+                        else if(thisWeek[cleaningSectors[sectorIndex]] === SECTOR_STATUS.COMPLETED) {
+                            response = `Don't worry ${PEOPLE[personIndex]}, you've already ${sectorStringsCompleted[sectorIndex-1w]}`;
+                        } else {
                             response = `Thanks ${PEOPLE[personIndex]} for ${sectorStringsCompleted[sectorIndex]}.`
                             statusCells[sectorIndex].value = SECTOR_STATUS.COMPLETED;
                             await new Promise((res, rej) => sheet.bulkUpdateCells(statusCells, (err) => {
@@ -196,6 +198,7 @@ const SECTOR_STATUS = {
         if (currentWeek !== 0 && lastWeekCells.filter((status) => !status || !Number(status)).reduce((a, b) => (a && b))) {
             for (const sectorKey in cleaningSectors) {
                 if (Number(lastWeekCells[sectorKey].value) === SECTOR_STATUS.REMINDED) {
+                    // If last week has people who are reminded, set them to overdue
                     const angryEmoji = ANGRY_EMOJIS[Math.floor(Math.random() * ANGRY_EMOJIS.length)];
                     const insult = INSULTS[Math.floor(Math.random() * INSULTS.length)];
 
@@ -221,11 +224,13 @@ const SECTOR_STATUS = {
             const status = thisWeek[`${sector}-status`];
             const emoji = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
             if (!status || !Number(status)) {
+                // If no status, set it to active
                 messenger.sendMessage(`${emoji} ${asignee} your task this week is to ${sectorStrings[sectorKey]}.`, env.CHAT_ID);
                 statusCells[sectorKey].value = SECTOR_STATUS.ACTIVE;
                 await new Promise((res) => setTimeout(res, 1000));
                 updatedStatus = true;
             } else if (Number(status) === SECTOR_STATUS.ACTIVE && currentDate.day() === 6) {
+                // If it's active and it's a Sunday, remind them to do it
                 messenger.sendMessage(`${emoji} ${asignee} - reminder that you need to ${sectorStrings[sectorKey]} by tonight.`, env.CHAT_ID);
                 statusCells[sectorKey].value = SECTOR_STATUS.REMINDED;
                 updatedStatus = true;
