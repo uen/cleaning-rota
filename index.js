@@ -25,7 +25,7 @@ const PEOPLE_IDS = {
     "100000761306740" : "Angus",
     "1061579433" : "Dan",
     "100000441897262" : "Ben A",
-    "1199940808" : "Ben E", // might not work
+    "1199940808" : "Ben E",
 }
 
 const EMOJIS = ["🔥", "💓", "👀", "💧", "🌊", "💃", "🌴", "💡", "🐎", "🐔", "🐙"];
@@ -154,7 +154,7 @@ const SECTOR_STATUS = {
     process = (async () => {
         const currentDate = moment();
         const currentWeek = moment().day(0).diff(startDate, "weeks");
-        console.log("CURRENT WEEK IS: ", currentWeek);
+        console.log("CURRENT WEEK IS: ", currentWeek, "start date is: ", startDate.format("DD/MM/YYYY"), "now is: ", currentDate.format("DD/MM/YYYY"));
 
         thisWeek = await new Promise((res, rej) => sheet.getRows({
             offset : currentWeek,
@@ -164,7 +164,7 @@ const SECTOR_STATUS = {
             res(rows[0]);
         }));
 
-
+        const lastWeek = currentWeek - 1;
         const lastWeekCells = currentWeek !== 0 ? await new Promise((res, rej) => sheet.getCells({
             'min-row' : lastWeek + 1 + 1,
             'max-row' : lastWeek + 1 + 1,
