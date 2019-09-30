@@ -134,11 +134,14 @@ const SECTOR_STATUS = {
                             response = `Your task for this week is to ${sectorStrings[sectorIndex]}.`;
                         }
                     break;
+                    case "pick a person":
+                        response = `I pick ${Object.values(PEOPLE)[Math.floor(Math.random() * Object.values(PEOPLE).length)]}`;
+                    break;
                     case "help":
-                        response = `I'm Snoop and I manage our cleaning rota. Start your command with 'Snoop, '. Available commands: "what\'s my task", "task completed" and "help".`;
+                        response = `I'm Snoop and I manage our cleaning rota. Start your command with 'Snoop, '. Available commands: "what\'s my task", "task completed", "pick a person", and "help".`;
                     break;
                     default:
-                        response = 'Unrecognized command. Available commands: "what\'s my task", "task completed", "help".';
+                        response = 'Unrecognized command. Available commands: "what\'s my task", "task completed", "pick a person", help".';
                 }
 
             } else {
