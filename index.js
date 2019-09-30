@@ -10,7 +10,7 @@ console.log(`Initializing ${process.env.APP_NAME}`);
 const document = new googleSpreadsheet(process.env.DOCUMENT_KEY);
 
 const cleaningSectors = ["kitchen", "bins", "toilet", "showers", "stairs-and-halls"];
-const sectorStrings = ["clean the kitchen", "take our the bins", "clean the toilet", "clean the showers", "clean the stairs and halls"];
+const sectorStrings = ["clean the kitchen", "take out the bins", "clean the toilet", "clean the showers", "clean the stairs and halls"];
 const sectorStringsCompleted = ["cleaning the kitchen", "taking out the bins", "cleaning the toilet", "cleaning the showers", "cleaning the stairs and halls"];
 const PEOPLE = {
     Mani : "Manolis Vrondakis",
