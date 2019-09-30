@@ -160,7 +160,7 @@ const SECTOR_STATUS = {
         console.log("CURRENT WEEK IS: ", currentWeek, "start date is: ", startDate.format("DD/MM/YYYY"), "now is: ", currentDate.format("DD/MM/YYYY"));
 
         thisWeek = await new Promise((res, rej) => sheet.getRows({
-            offset: currentWeek,
+            offset: currentWeek + 1,
             limit: 1
         }, (err, rows) => {
             if (err) return rej(err);
@@ -192,11 +192,10 @@ const SECTOR_STATUS = {
             res(statusCells)
         }));
 
-        let updatedStatus = false;
         let updatedLastWeek = false;
         if (currentWeek !== 0 && lastWeekCells.filter((status) => !status || !Number(status)).reduce((a, b) => (a && b))) {
             for (const sectorKey in cleaningSectors) {
-                if(Number(lastWeekCells[sectorKey].value) === SECTOR_STATUS.REMINDED){
+                if (Number(lastWeekCells[sectorKey].value) === SECTOR_STATUS.REMINDED) {
                     const angryEmoji = ANGRY_EMOJIS[Math.floor(Math.random() * ANGRY_EMOJIS.length)];
                     const insult = INSULTS[Math.floor(Math.random() * INSULTS.length)];
 
@@ -206,7 +205,7 @@ const SECTOR_STATUS = {
                 }
             }
 
-            if(updatedLastWeek){
+            if (updatedLastWeek) {
                 await new Promise((res, rej) => sheet.bulkUpdateCells(lastWeekCells, (err) => {
                     if (err) return rej(err);
                     res();
@@ -214,21 +213,24 @@ const SECTOR_STATUS = {
             }
         }
 
+        let updatedStatus = false;
+
         for (const sectorKey in cleaningSectors) {
             const sector = cleaningSectors[sectorKey];
             const asignee = PEOPLE[thisWeek[sector]];
             const status = thisWeek[`${sector}-status`];
-
             const emoji = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
             if (!status || !Number(status)) {
                 messenger.sendMessage(`${emoji} ${asignee} your task this week is to ${sectorStrings[sectorKey]}.`, env.CHAT_ID);
                 statusCells[sectorKey].value = SECTOR_STATUS.ACTIVE;
-
                 await new Promise((res) => setTimeout(res, 1000));
-            } else if (status === SECTOR_STATUS.ACTIVE && currentDate.day() === 6) {
+                updatedStatus = true;
+            } else if (Number(status) === SECTOR_STATUS.ACTIVE && currentDate.day() === 6) {
                 messenger.sendMessage(`${emoji} ${asignee} - reminder that you need to ${sectorStrings[sectorKey]} by tonight.`, env.CHAT_ID);
                 statusCells[sectorKey].value = SECTOR_STATUS.REMINDED;
                 updatedStatus = true;
+            } else {
+                updatedStatus = false;
             }
         }
 
