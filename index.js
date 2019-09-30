@@ -173,8 +173,8 @@ const SECTOR_STATUS = {
             'return-empty' : true
         }, (err, cells) => {
             if(err) return false;
-            res(cells || false)
-        }))
+            res(cells || false);
+        })) : false;
 
         
         // Get the status cells so we can update them later
