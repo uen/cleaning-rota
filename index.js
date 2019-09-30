@@ -199,7 +199,7 @@ const SECTOR_STATUS = {
                 const angryEmoji = ANGRY_EMOJIS[Math.floor(Math.random()*ANGRY_EMOJIS.length)];
                 const insult = INSULTS[Math.floor(Math.random()*INSULTS.length)];
 
-                messenger.sendMessage(`${angryEmoji} you failed to ${sectorStrings[sectorKey]}. ${insult}`, env.CHAT_ID);
+                messenger.sendMessage(`${angryEmoji} ${PEOPLE[thisWeek[cleaningSectors[sectorKey]]]} you failed to ${sectorStrings[sectorKey]}. ${insult}`, env.CHAT_ID);
                 statusCells[sectorKey].value = SECTOR_STATUS.OVERDUE;
             }
         }
