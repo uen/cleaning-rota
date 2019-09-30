@@ -5,7 +5,7 @@ const env = Object.assign({
     APP_NAME : "cleaning-rota",
     DOCUMENT_KEY : "1xc1WC8U8Ke-Stnv6vJsqZPqsvV9sNRh39V8Qs5NktIU",
     PROCESS_TIME : 10 * 1000,
-    FB_EMAIL : "",
+    FB_USERNAME : "",
     FB_PASSWORD : "",
     CHAT_ID : "",
     GOOGLE_CREDENTIALS : {
