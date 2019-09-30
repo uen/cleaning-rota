@@ -171,7 +171,10 @@ const SECTOR_STATUS = {
             'min-col' : 1 + cleaningSectors.length + 1 + 1,
             'max-col' : 1 + cleaningSectors.length + cleaningSectors.length + 1,
             'return-empty' : true
-        })) : false;
+        }, (err, cells) => {
+            if(err) return false;
+            res(cells || false)
+        }))
 
         
         // Get the status cells so we can update them later
