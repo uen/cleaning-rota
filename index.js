@@ -158,7 +158,7 @@ const SECTOR_STATUS = {
     let process;
     process = (async () => {
         const currentDate = moment();
-        const currentWeek = moment().day(0).diff(startDate, "weeks");
+        const currentWeek = moment().day(1).diff(startDate, "weeks");
         console.log("CURRENT WEEK IS: ", currentWeek, "start date is: ", startDate.format("DD/MM/YYYY"), "now is: ", currentDate.format("DD/MM/YYYY"));
 
         thisWeek = await new Promise((res, rej) => sheet.getRows({
