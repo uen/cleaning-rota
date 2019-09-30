@@ -111,7 +111,7 @@ const SECTOR_STATUS = {
 
                         if (!thisWeek[cleaningSectors[sectorIndex]])
                             response = `Sorry ${PEOPLE[personIndex]}, I could not find a sector attached to you this week.`;
-                        else if(thisWeek[cleaningSectors[sectorIndex]] === SECTOR_STATUS.COMPLETED) {
+                        else if(Number(statusCells[sectorIndex].value) === SECTOR_STATUS.COMPLETED) {
                             response = `Don't worry ${PEOPLE[personIndex]}, you've already ${sectorStringsCompleted[sectorIndex-1]}`;
                         } else {
                             response = `Thanks ${PEOPLE[personIndex]} for ${sectorStringsCompleted[sectorIndex]}.`;
