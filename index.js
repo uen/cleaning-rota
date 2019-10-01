@@ -67,8 +67,7 @@ const SECTOR_STATUS = {
     const sheet = await new Promise((res, rej) => {
         document.getInfo((err, info) => {
             if (err) return rej(err);
-            console.log('Loaded doc: ' + info.title + ' by ' + info.author.email);
-            console.log(info);
+
             res(info.worksheets[0]);
         });
     });
@@ -90,7 +89,7 @@ const SECTOR_STATUS = {
     // Listen to chat
     messenger.listen(async (err, messageObj) => {
         if (err) return console.error(err);
-        console.log(messageObj);
+
         const message = messageObj.body;
         console.log(message.startsWith)
         if (message.toLowerCase().startsWith(`${TRIGGER_WORD.toLowerCase()} `)) {
@@ -98,7 +97,6 @@ const SECTOR_STATUS = {
 
             const personIndex = PEOPLE_IDS[messageObj.senderID];
             if (personIndex) {
-                console.log(message.substr(`${TRIGGER_WORD.length + 1}`).toLowerCase())
                 let sectorIndex;
                 switch (message.substr(`${TRIGGER_WORD.length + 1}`).toLowerCase()) {
                     case "task completed":
@@ -112,7 +110,7 @@ const SECTOR_STATUS = {
                         if (!thisWeek[cleaningSectors[sectorIndex]])
                             response = `Sorry ${PEOPLE[personIndex]}, I could not find a sector attached to you this week.`;
                         else if(Number(statusCells[sectorIndex].value) === SECTOR_STATUS.COMPLETED) {
-                            response = `Don't worry ${PEOPLE[personIndex]}, you've already ${sectorStringsCompleted[sectorIndex-1]}`;
+                            response = `Don't worry, your task is already complete!`;
                         } else {
                             response = `Thanks ${PEOPLE[personIndex]} for ${sectorStringsCompleted[sectorIndex]}.`;
                             statusCells[sectorIndex].value = SECTOR_STATUS.COMPLETED;
@@ -159,7 +157,6 @@ const SECTOR_STATUS = {
     process = (async () => {
         const currentDate = moment();
         const currentWeek = moment().day(1).diff(startDate, "weeks");
-        console.log("CURRENT WEEK IS: ", currentWeek, "start date is: ", startDate.format("DD/MM/YYYY"), "now is: ", currentDate.format("DD/MM/YYYY"));
 
         thisWeek = await new Promise((res, rej) => sheet.getRows({
             offset: currentWeek + 1,
